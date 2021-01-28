@@ -30,7 +30,11 @@ function App() {
   const [subTaskName, setSubTaskName] = useState('');
 
   function createTask(taskName) {
-    const newTask = {taskId, taskName};
+    const newTask = {
+      id: taskId,
+      name:taskName,
+      isAllDone: false
+    };
     setTasks([newTask, ...tasks])
     taskId ++;
   }
@@ -68,7 +72,7 @@ function App() {
   }
 
   function deleteTask(id){
-    const updatedTask = tasks.filter((task) => task.taskId !== id);
+    const updatedTask = tasks.filter((task) => task.id !== id);
     setTasks(updatedTask);
   }
 
@@ -84,14 +88,14 @@ function App() {
         <Button type="primary" onClick={getTaskName}>Create Task</Button>
       </Space>
       {tasks.map((task) => (
-        <Space key={task.taskId} direction="vertical" style={{ marginTop: 24 }}>
+        <Space key={task.id} direction="vertical" style={{ marginTop: 24 }}>
           <Card
-            title={task.taskName}
+            title={task.name}
             style={{ width: 600 }}
             extra={
               <>
-                <Button type="primary" onClick={() => duplicateTask(task.taskName)}>Duplicate</Button>{" "}
-                <Button type="primary" onClick={() => deleteTask(task.taskId)} danger>
+                <Button type="primary" onClick={() => duplicateTask(task.name)}>Duplicate</Button>{" "}
+                <Button type="primary" onClick={() => deleteTask(task.id)} danger>
                   Delete
                 </Button>
               </>
@@ -100,7 +104,7 @@ function App() {
             <Space direction="vertical" style={{ width: "100%" }}>
               <Space>
                 <Input placeholder="Enter Subtask Name" style={{ width: 400 }} value={subTaskName} onChange={onChangeSubTaskName} />
-                <Button type="primary" onClick={() => getSubTaskName(task.taskId)}>Add Subtask</Button>
+                <Button type="primary" onClick={() => getSubTaskName(task.id)}>Add Subtask</Button>
               </Space>
               <Divider />
               {subTasks.map((subTask) => (
@@ -109,7 +113,7 @@ function App() {
                       <Typography.Text>{subTask.subTaskName}</Typography.Text>
                     </Col>
                     <Col span={8}>
-                      <Button type="primary">Done</Button>{" "}
+                      {/* <Button type="primary">Done</Button>{" "} */}
                       <Button type="danger" onClick={() => deleteSubTask(subTask.subId)}>Delete</Button>
                     </Col>
                   </Row>
